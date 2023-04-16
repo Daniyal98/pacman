@@ -1,16 +1,18 @@
 #pragma once
 #include "Point.h"
+#include "util.h"
 class Ghosts
 {
 
 public:
 	Point pos;
 	bool alive;
+	ColorNames color;
 public:
-	Ghosts(){
-		pos.setx(185);
-		pos.sety(190);
+	Ghosts()
+	{
 	}
+	virtual void Move();
 	~Ghosts();
 };
 

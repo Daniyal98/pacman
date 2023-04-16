@@ -15,6 +15,7 @@
 #include <cstdio>
 const int Board::BOARD_X = 17;
 const int Board::BOARD_Y = 14;
+const int GHOST = 5;
 //here's Bomberman's crazy board
 
 // Note that all these enum constants from NILL onwards
@@ -128,6 +129,10 @@ void Drawbrick(const BoardParts &cname, float fx, float fy, float fwidth,
 Board::~Board(void) {
 }
 void Board::InitalizeBoard(int w, int h) {
+	ghosts[0] = Pinky();
+	ghosts[1] = Inky();
+	ghosts[2] = Blinky();
+	ghosts[3] = Clyde();
 	width = w;
 	height = h;
 	for (int i = 0; i < BOARD_Y - 1; ++i) {
@@ -135,21 +140,17 @@ void Board::InitalizeBoard(int w, int h) {
 			if (i == 0 || i == BOARD_Y - 2 || j == 0 || j == BOARD_X - 1)
 				board_array[i][j] = S_BRICK;
 			else if (i % 2 == 0 && j % 2 == 0)
-				board_array[i][j] = S_BRICK;
+				board_array[i][j] = G_BRICK;
 			else
 				board_array[i][j] =
-				(GetRandInRange(0, 10)) < 8 ? NILL :
-				(GetRandInRange(0, 10)) < 8 ? G_BRICK : R_BRICK;
+				(GetRandInRange(0, 10)) < 9 ? NILL : R_BRICK;
 		}
 	}
-	ghost[1].pos.setx(530); ghost[1].pos.sety(600);
-	ghost[2].pos.setx(470); ghost[3].pos.sety(540);
 
-	ghost[3].pos.setx(600); ghost[3].pos.sety(660);
-
-
-
-
+	board_array[ghosts[0].pos.getx()][ghosts[0].pos.gety()] = GHOST;
+	board_array[ghosts[1].pos.getx()][ghosts[1].pos.gety()] = GHOST;
+	board_array[ghosts[2].pos.getx()][ghosts[2].pos.gety()] = GHOST;
+	board_array[ghosts[3].pos.getx()][ghosts[3].pos.gety()] = GHOST;
 }
 //Constructor
 Board::Board(int xsize, int ysize) {
@@ -289,6 +290,7 @@ void Board::Draw() {
 		}
 	}
 #else
+	int ghost_counter = 0;
 	for (int i = BOARD_Y - 2, y = 0; i >= 0; --i, y += xcellsize) {
 		for (int j = 0, x = 0; j < BOARD_X; j++, x += (ycellsize)) {
 			//			cout <<      " " << board_array[i][j] << " " << flush;
@@ -308,6 +310,10 @@ void Board::Draw() {
 			case R_BRICK:
 				DrawRectangle(x - 10, y, ycellsize, xcellsize, colors[RED]);
 				break;
+			case 5:
+				DrawEnemy(x - 8, y, ghosts[ghost_counter].color, 0.9 * xcellsize, 0.9 * ycellsize);
+				ghost_counter++;
+				break;
 			}
 		}
 	}
@@ -326,4 +332,41 @@ void Board::GetInitPinkyPosition(int &x, int &y) {
 void Board::GetInitTextPosition(int &x, int &y) {
 	x = xcellsize;
 	y = (BOARD_Y - 1) * ycellsize + ycellsize / 2;
+}
+
+void Board::DrawEnemy(int x/*starting x*/, int y/*starting y*/,
+	ColorNames color/*color*/, float gw/*Enemy Width in Units*/,
+	float gh/*Enemy Height in Units*/) {
+	int ogw = 6, ogh = 7;
+
+	glPushMatrix();
+	float sx = (float)gw / ogw, sy = (float)gh / ogh;
+	glTranslatef(x, y, 1);
+	glScalef(sx, sy, 1);
+
+	// Draw Enemy
+	DrawRoundRect(0, 1, 6, 3, colors[color]);
+	DrawCircle(3, 4, 3.01, colors[color]);
+	glPushMatrix();
+	glScalef(0.9, 1.1, 1);
+	//  legs
+	DrawCircle(0.75, 1, 0.75, colors[color]);
+	DrawCircle(3.25, 1, 0.75, colors[color]);
+	DrawCircle(5.85, 1, 0.75, colors[color]);
+
+	glPopMatrix();
+	//	glPopMatrix();
+
+	// eyes
+
+	glPushMatrix();
+	glScalef(0.9, 1.1, 1);
+	DrawCircle(1.85, 3.95, 0.75, colors[WHITE]);
+	DrawCircle(4.95, 3.95, 0.75, colors[WHITE]);
+	glPopMatrix();
+
+	// eyes
+	DrawCircle(1.65, 4.25, 0.45, colors[BLUE]);
+	DrawCircle(4.45, 4.25, 0.45, colors[BLUE]);
+	glPopMatrix();
 }

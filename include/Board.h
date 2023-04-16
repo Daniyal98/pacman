@@ -9,9 +9,12 @@
 
 //#include <GL/glut.h>
 #include <iostream>
-#include "util.h"
 #include "Bomberman.h"
-#include"Ghosts.h"
+#include "Ghosts.h"
+#include "Pinky.h"
+#include "Clyde.h"
+#include "Inky.h"
+#include "Blinky.h"
 using namespace std;
 class Board {
 private:
@@ -21,13 +24,16 @@ private:
 	ColorNames pcolor, bcolor, gcolor;
 	int score;
 public:
-	Ghosts ghost[4];
+	Ghosts ghosts[4];
 	static const int BOARD_X;
 	static const int BOARD_Y;
 	Board(int xsize = 8, int ysize = 8);
 	Bomberman Bombman;
 	int Array[13][17];
 	int getScore();
+	void DrawEnemy(int x/*starting x*/, int y/*starting y*/,
+	ColorNames color/*color*/, float gw = 6/*Enemy Width in Units*/,
+	float gh = 7/*Enemy Height in Units*/);
 	bool Check();
 	void Reset();
 	~Board(void);

@@ -11,7 +11,6 @@
 //#include <GL/gl.h>
 //#include <GL/glut.h>
 #include "Board.h"
-#include "util.h"
 #include <iostream>
 #include<string>
 #include<cmath> // for basic math functions such as cos, sin, sqrt
@@ -30,42 +29,6 @@ void SetCanvasSize(int width, int height) {
 	glOrtho(0, width, 0, height, -1, 1); // set the screen size to given width and height.
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-}
-void DrawEnemy(int x/*starting x*/, int y/*starting y*/,
-	ColorNames color/*color*/, float gw = 6/*Enemy Width in Units*/,
-	float gh = 7/*Enemy Height in Units*/) {
-	int ogw = 6, ogh = 7;
-
-	glPushMatrix();
-	float sx = (float)gw / ogw, sy = (float)gh / ogh;
-	glTranslatef(x, y, 1);
-	glScalef(sx, sy, 1);
-
-	// Draw Enemy
-	DrawRoundRect(0, 1, 6, 3, colors[color]);
-	DrawCircle(3, 4, 3.01, colors[color]);
-	glPushMatrix();
-	glScalef(0.9, 1.1, 1);
-	//  legs
-	DrawCircle(0.75, 1, 0.75, colors[color]);
-	DrawCircle(3.25, 1, 0.75, colors[color]);
-	DrawCircle(5.85, 1, 0.75, colors[color]);
-
-	glPopMatrix();
-	//	glPopMatrix();
-
-	// eyes
-
-	glPushMatrix();
-	glScalef(0.9, 1.1, 1);
-	DrawCircle(1.85, 3.95, 0.75, colors[WHITE]);
-	DrawCircle(4.95, 3.95, 0.75, colors[WHITE]);
-	glPopMatrix();
-
-	// eyes
-	DrawCircle(1.65, 4.25, 0.45, colors[BLUE]);
-	DrawCircle(4.45, 4.25, 0.45, colors[BLUE]);
-	glPopMatrix();
 }
 
 //Number of Vertices used to draw Bomberman Circle...
@@ -116,10 +79,10 @@ void GameDisplay()/**/{
 	int x, y;
 	b->GetInitPinkyPosition(x, y);
 	cout << x << "  y= " << y << endl << flush;
-	DrawEnemy(b->ghost[0].pos.getx(), b->ghost[0].pos.gety(), PINK, 0.8 * b->GetCellSize(), 0.8 * b->GetCellSize());
-	DrawEnemy(b->ghost[1].pos.getx(), b->ghost[1].pos.gety(), ORANGE_RED, 0.8 * b->GetCellSize(), 0.8 * b->GetCellSize());
-	DrawEnemy(b->ghost[2].pos.getx(), b->ghost[2].pos.gety(), BLACK, 0.8 * b->GetCellSize(), 0.8 * b->GetCellSize());
-	DrawEnemy(b->ghost[3].pos.getx(), b->ghost[3].pos.gety(), BLUE, 0.8 * b->GetCellSize(), 0.8 * b->GetCellSize());
+	// DrawEnemy(b->ghosts[0].pos.getx(), b->ghosts[0].pos.gety(), b->ghosts[0].color, 0.9 * b->GetCellSize(), 0.9 * b->GetCellSize());
+	// DrawEnemy(b->ghosts[1].pos.getx(), b->ghosts[1].pos.gety(), b->ghosts[1].color, 0.9 * b->GetCellSize(), 0.9 * b->GetCellSize());
+	// DrawEnemy(b->ghosts[2].pos.getx(), b->ghosts[2].pos.gety(), b->ghosts[2].color, 0.9 * b->GetCellSize(), 0.9 * b->GetCellSize());
+	// DrawEnemy(b->ghosts[3].pos.getx(), b->ghosts[3].pos.gety(), b->ghosts[3].color, 0.9 * b->GetCellSize(), 0.9 * b->GetCellSize());
 
 	//b->GetInitBombermanPosition(x, y);
 	DrawBomberman(b->Bombman.getPoint().getx(), b->Bombman.getPoint().gety(), b->GetCellSize() / 2 - 2, YELLOW);
