@@ -76,6 +76,7 @@ void GameDisplay()/**/{
 	//
 
 	b->Draw();
+	b->MoveGhosts();
 	int x, y;
 	b->GetInitPinkyPosition(x, y);
 	cout << x << "  y= " << y << endl << flush;

@@ -370,3 +370,44 @@ void Board::DrawEnemy(int x/*starting x*/, int y/*starting y*/,
 	DrawCircle(4.45, 4.25, 0.45, colors[BLUE]);
 	glPopMatrix();
 }
+
+void Board::MoveGhosts()
+{
+	int dir = rand() % 4;
+	if (dir == 0)
+	{
+		if (board_array[ghosts[2].pos.getx()][ghosts[2].pos.gety() + 1] == 0)
+		{
+			board_array[ghosts[2].pos.getx()][ghosts[2].pos.gety()] = NILL;
+			ghosts[2].pos.sety(ghosts[2].pos.gety() + 1);
+			board_array[ghosts[2].pos.getx()][ghosts[2].pos.gety()] = GHOST;
+		}
+	}
+	else if (dir == 1)
+	{
+		if (board_array[ghosts[2].pos.getx()][ghosts[2].pos.gety() - 1] == 0)
+		{
+			board_array[ghosts[2].pos.getx()][ghosts[2].pos.gety()] = NILL;
+			ghosts[2].pos.sety(ghosts[2].pos.gety() - 1);
+			board_array[ghosts[2].pos.getx()][ghosts[2].pos.gety()] = GHOST;
+		}
+	}
+	else if (dir == 2)
+	{
+		if (board_array[ghosts[2].pos.getx() + 1][ghosts[2].pos.gety()] == 0)
+		{
+			board_array[ghosts[2].pos.getx()][ghosts[2].pos.gety()] = NILL;
+			ghosts[2].pos.setx(ghosts[2].pos.getx() + 1);
+			board_array[ghosts[2].pos.getx()][ghosts[2].pos.gety()] = GHOST;
+		}
+	}
+	else if (dir == 3)
+	{
+		if (board_array[ghosts[2].pos.getx() - 1][ghosts[2].pos.gety()] == 0)
+		{
+			board_array[ghosts[2].pos.getx()][ghosts[2].pos.gety()] = NILL;
+			ghosts[2].pos.setx(ghosts[2].pos.getx() - 1);
+			board_array[ghosts[2].pos.getx()][ghosts[2].pos.gety()] = GHOST;
+		}
+	}
+}

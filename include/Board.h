@@ -29,6 +29,7 @@ public:
 	static const int BOARD_Y;
 	Board(int xsize = 8, int ysize = 8);
 	Bomberman Bombman;
+	void MoveGhosts();
 	int Array[13][17];
 	int getScore();
 	void DrawEnemy(int x/*starting x*/, int y/*starting y*/,
