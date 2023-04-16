@@ -18,5 +18,6 @@ public:
 	void Lives();
 	void MoveLeft();
 	void setPoint(int, int);
+	int getLives();
 	virtual ~Bomberman();
 };

@@ -90,6 +90,7 @@ void GameDisplay()/**/{
 	b->GetInitTextPosition(x, y);
 	cout << endl << "Text Position = " << x << "  y= " << y << endl << flush;
 	DrawString(x, y, "Score = " + Num2Str(b->getScore()), colors[5]);
+	DrawString(x + 200, y, "Lives = " + Num2Str(b->Bombman.getLives()), colors[5]);
 	//	glPopMatrix();
 	if (bombStatus == true) {
 		DrawCircle(b->Bombman.bomb.getPoint().getx(), b->Bombman.bomb.getPoint().gety(), 15, colors[RED]); // To Draw a bomb. You will provide your own x and y relative to Bombermans position
@@ -111,6 +112,13 @@ void GameDisplay()/**/{
 		cout << "Bomberman cordinates are " << b->Bombman.getPoint().getx() << "and " << b->Bombman.getPoint().gety() << endl;
 		cout << "Bomb coordiantes are " << b->Bombman.bomb.getPoint().getx() << "and " << b->Bombman.bomb.getPoint().gety() << endl;
 	}
+	if (b->Bombman.getLives() == 0)
+	{
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f );
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		DrawString(x + 400, y - 400, "Game Over!", colors[5]);
+		DrawString(x + 400, y - 350, "Your Score is: " + Num2Str(b->getScore()), colors[5]);
+	}
 	glutSwapBuffers(); // do not modify this line..
 
 }
@@ -131,6 +139,11 @@ void NonPrintableKeys(int key, int x, int y) {
 
 		== GLUT_KEY_LEFT /*GLUT_KEY_LEFT is constant and contains ASCII for left arrow key*/) {
 		// what to do when left key is pressed..
+		if (b->Array[b->Bombman.getPoint().gety() / 60][b->Bombman.getPoint().getx() / 60 - 1] == 5)
+		{
+			b->Bombman.setPoint(80, 90);
+			b->Bombman.Lives();
+		}
 		if (b->Array[b->Bombman.getPoint().gety() / 60][b->Bombman.getPoint().getx() / 60 - 1] == 0)
 		{
 			b->Bombman.MoveLeft();
@@ -140,6 +153,11 @@ void NonPrintableKeys(int key, int x, int y) {
 	}
 	else if (key
 		== GLUT_KEY_RIGHT /*GLUT_KEY_RIGHT is constant and contains ASCII for right arrow key*/) {
+			if (b->Array[b->Bombman.getPoint().gety() / 60][b->Bombman.getPoint().getx() / 60 + 1] == 5)
+		{
+			b->Bombman.setPoint(80, 90);
+			b->Bombman.Lives();
+		}
 		if (b->Array[b->Bombman.getPoint().gety() / 60][b->Bombman.getPoint().getx() / 60 + 1] == 0)
 		{
 			b->Bombman.MoveRight();
@@ -149,6 +167,11 @@ void NonPrintableKeys(int key, int x, int y) {
 	}
 	else if (key
 		== GLUT_KEY_UP/*GLUT_KEY_UP is constant and contains ASCII for up arrow key*/) {
+		if (b->Array[(b->Bombman.getPoint().gety() / 60) + 1][b->Bombman.getPoint().getx() / 60] == 5)
+		{
+			b->Bombman.setPoint(80, 90);
+			b->Bombman.Lives();
+		}
 		if (b->Array[(b->Bombman.getPoint().gety() / 60) + 1][b->Bombman.getPoint().getx() / 60] == 0)
 		{
 			b->Bombman.MoveUp();
@@ -157,6 +180,11 @@ void NonPrintableKeys(int key, int x, int y) {
 	}
 
 	else if (key == GLUT_KEY_DOWN/*GLUT_KEY_DOWN is constant and contains ASCII for down arrow key*/) {
+		if (b->Array[(b->Bombman.getPoint().gety() / 60) - 1][b->Bombman.getPoint().getx() / 60] == 5)
+		{
+			b->Bombman.setPoint(80, 90);
+			b->Bombman.Lives();
+		}
 		if (b->Array[b->Bombman.getPoint().gety() / 60 - 1][b->Bombman.getPoint().getx() / 60] == 0)
 		{
 			b->Bombman.MoveDown();

@@ -61,3 +61,8 @@ Bomberman::~Bomberman() {
 
 }
 
+int Bomberman::getLives() 
+{
+	return lives;
+}
+
